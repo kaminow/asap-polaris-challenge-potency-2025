@@ -4,4 +4,4 @@ challenge. Once the challenge is over, I will come back and organize things a bi
 better.
 
 The competitions can be found at https://polarishub.io/competitions. This repo is
-specificall for the [potency challenge](https://polarishub.io/competitions/asap-discovery/antiviral-potency-2025).
+specifically for the [potency challenge](https://polarishub.io/competitions/asap-discovery/antiviral-potency-2025).
