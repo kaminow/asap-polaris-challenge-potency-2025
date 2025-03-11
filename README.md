@@ -5,3 +5,5 @@ better.
 
 The competitions can be found at https://polarishub.io/competitions. This repo is
 specifically for the [potency challenge](https://polarishub.io/competitions/asap-discovery/antiviral-potency-2025).
+
+**Disclaimer:** For the time being, this repo may containg hardcoded filepaths. Obviously these are unlikely to work on your machine.
