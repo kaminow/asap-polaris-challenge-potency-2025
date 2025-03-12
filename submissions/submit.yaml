@@ -1,0 +1,19 @@
+# .npy files containing predictions, will be loaded in submission script
+sars_preds_file: /data1/choderaj/kaminowb/polaris_challenge_2025/predictions/sars.npy
+mers_preds_file: /data1/choderaj/kaminowb/polaris_challenge_2025/predictions/mers.npy
+
+# Other required fields for submission
+prediction_name: test_pred
+prediction_owner: bkaminow
+report_url: https://github.com/kaminow/asap-polaris-challenge-potency-2025/blob/main/report.md
+
+# Optional fields
+# contributors:
+#   - test1
+github_url: https://github.com/kaminow/asap-polaris-challenge-potency-2025
+description: "Predictions made by a GAT model trained using the asapdiscovery-ml pipeline."
+# tags:
+user_attributes:
+  Framework: asapdiscovery-ml
+  Pretrained: "No"
+  # Pretrained: COVID Moonshot
