@@ -47,3 +47,7 @@ def main(preds_spec):
 
     # Submit predictions
     competition.submit_predictions(predictions=preds, **sub_spec)
+
+
+if __name__ == "__main__":
+    main()
