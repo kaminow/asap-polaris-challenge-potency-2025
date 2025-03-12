@@ -33,10 +33,10 @@ def main(preds_spec):
         raise ValueError(f"Spec file missing required keys: {missing_keys}")
 
     # Make sure preds files exist (pop so we can use dict expansion)
-    sars_preds_file = sub_spec.pop("sars_preds_file")
+    sars_preds_file = Path(sub_spec.pop("sars_preds_file"))
     if not sars_preds_file.exists():
         raise FileNotFoundError("Specified sars_preds_file not found")
-    mers_preds_file = sub_spec.pop("mers_preds_file")
+    mers_preds_file = Path(sub_spec.pop("mers_preds_file"))
     if not mers_preds_file.exists():
         raise FileNotFoundError("Specified mers_preds_file not found")
 
@@ -46,6 +46,7 @@ def main(preds_spec):
     preds = {"pIC50 (SARS-CoV-2 Mpro)": sars_preds, "pIC50 (MERS-CoV Mpro)": mers_preds}
 
     # Submit predictions
+    print(sub_spec, flush=True)
     competition.submit_predictions(predictions=preds, **sub_spec)
 
 
