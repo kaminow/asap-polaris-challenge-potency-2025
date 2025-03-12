@@ -3,7 +3,7 @@ sars_preds_file: /data1/choderaj/kaminowb/polaris_challenge_2025/predictions/sar
 mers_preds_file: /data1/choderaj/kaminowb/polaris_challenge_2025/predictions/mers.npy
 
 # Other required fields for submission
-prediction_name: test_pred
+prediction_name: asapdiscovery_ml_gat
 prediction_owner: bkaminow
 report_url: https://github.com/kaminow/asap-polaris-challenge-potency-2025/blob/main/report.md
 
@@ -16,4 +16,4 @@ description: "Predictions made by a GAT model trained using the asapdiscovery-ml
 user_attributes:
   Framework: asapdiscovery-ml
   Pretrained: "No"
-  # Pretrained: COVID Moonshot
+  Model: GAT
