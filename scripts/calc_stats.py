@@ -1,5 +1,4 @@
 from functools import partial
-from itertools import product
 import json
 import multiprocessing as mp
 from pathlib import Path
@@ -130,7 +129,7 @@ def main(
     elif use_best_epoch_mae:
         mae_df = (
             full_preds_df.groupby(["split", "epoch"])
-            .apply(calc_mae)
+            .apply(calc_mae_df)
             .reset_index(level=["split", "epoch"])
             .reset_index(drop=True)
             .rename(columns={0: "MAE"})
