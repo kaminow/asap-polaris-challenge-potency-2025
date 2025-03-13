@@ -54,8 +54,7 @@ mkdir parsed_datasets
 
 We next need to parse these raw CSV files into the format that the `asapdiscovery-ml`
 CLI expects. For more information on these formats, please see the
-[relevant docs page]
-(https://asapdiscovery.readthedocs.io/en/latest/guides/using_ml_cli.html).
+[relevant docs page](https://asapdiscovery.readthedocs.io/en/latest/guides/using_ml_cli.html).
 
 Before running the standard CLI, there is one ad hoc processing script that I had to
 write because the data to use for the MERS data are the Minh columns, which are in a
