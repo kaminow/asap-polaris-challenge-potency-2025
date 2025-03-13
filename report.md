@@ -131,3 +131,88 @@ asap-ml build-dataset gat \
 --ds-config-cache parsed_datasets/moonshot_gat_config.json \
 --ds-cache parsed_datasets/moonshot_gat_ds.pkl
 ```
+
+## Some data analysis
+
+Before starting, we'll just [take a quick look at the data](notebooks/ds_dists.ipynb).
+
+Looking at the distributions of the pIC50 values, we can see that the distributions are
+fairly similar between the train and validation sets in the competition datasets,
+especially as compared to the Moonshot dataset. This makes some sense, as the Moonshot
+dataset contains a lot more early-pipeline molecules and the affinity distribution is
+therefore likely to shift more drastically over time.
+
+![pIC50 distributions of the Moonshot and competition datasets.](figures/pic50_dist.png)
+
+# Set up models and run training
+
+More details on everything are available in the [docs]
+(https://asapdiscovery.readthedocs.io/en/latest/guides/using_ml_cli.html).
+In this section, we'll set up and run training for the pretraining model (trained on the
+Moonshot data) and the two models trained from scratch on the competition data. The
+training for the two pretrained models will of course depend on the results from the
+pretraining run.
+
+```bash
+mkdir trained_models
+
+# Build the Trainer objects and run training
+mkdir trained_models/sars
+asap-ml build-and-train gat \
+--output-dir trained_models/sars \
+--trainer-config-cache trained_models/sars/trainer.json \
+\
+--ds-split-type temporal \
+--ds-config-cache parsed_datasets/sars_gat_config.json \
+--ds-cache parsed_datasets/sars_gat_ds.pkl \
+--train-frac 0.9 \
+--val-frac 0.1 \
+--test-frac 0 \
+\
+--pred-readout pic50 \
+\
+--loss loss_type:mse_step \
+--target-prop pIC50 \
+\
+--device cuda \
+--n-epochs 5000
+
+mkdir trained_models/mers
+asap-ml build-and-train gat \
+--output-dir trained_models/mers \
+--trainer-config-cache trained_models/mers/trainer.json \
+\
+--ds-split-type temporal \
+--ds-config-cache parsed_datasets/mers_gat_config.json \
+--ds-cache parsed_datasets/mers_gat_ds.pkl \
+--train-frac 0.9 \
+--val-frac 0.1 \
+--test-frac 0 \
+\
+--pred-readout pic50 \
+\
+--loss loss_type:mse_step \
+--target-prop pIC50 \
+\
+--device cuda \
+--n-epochs 5000
+
+mkdir trained_models/moonshot
+asap-ml build-and-train gat \
+--output-dir trained_models/moonshot \
+--trainer-config-cache trained_models/moonshot/trainer.json \
+\
+--ds-split-type temporal \
+--ds-config-cache parsed_datasets/moonshot_gat_config.json \
+--ds-cache parsed_datasets/moonshot_gat_ds.pkl \
+--train-frac 0.9 \
+--val-frac 0.1 \
+--test-frac 0 \
+\
+--pred-readout pic50 \
+\
+--loss loss_type:mse_step \
+--target-prop pIC50 \
+\
+--device cuda \
+--n-epochs 5000
