@@ -1,4 +1,4 @@
-> **This is still a work in progress and is incomplete**
+**This is still a work in progress and is incomplete**
 ***
 
 # Intro/Disclaimers
