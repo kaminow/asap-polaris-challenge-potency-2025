@@ -143,6 +143,16 @@ therefore likely to shift more drastically over time.
 
 ![pIC50 distributions of the Moonshot and competition datasets.](figures/pic50_dist.png)
 
+We can also look at how similar the molecules in the validation set and competition test
+set are to the molecules in the different train sets. This analysis uses the MACCS166
+fingerprint and the Tanimoto similarity. We see that for the competition datasets, the
+validation and test sets are both fairly similar to the train set. Their similarity
+distributions are also similar, hinting that the val sets might actually be a good proxy
+for the test set. The test set molecules are much less similar to the molecules in the
+Moonshot train set.
+
+![Distribution of max similarities to train set.](figures/tanimoto_sim_dist.png)
+
 # Set up models and run training
 
 More details on everything are available in the [docs]
