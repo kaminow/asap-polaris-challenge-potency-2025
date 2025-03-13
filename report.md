@@ -4,8 +4,8 @@
 # Intro/Disclaimers
 
 This submission is largely meant as a proof-of-concept/showcase for the
-(`asapdiscovery`)[https://github.com/asapdiscovery/asapdiscovery/] and
-(`mtenn`)[https://github.com/choderalab/mtenn/] frameworks developed by myself and
+[`asapdiscovery`](https://github.com/asapdiscovery/asapdiscovery/) and
+[`mtenn`](https://github.com/choderalab/mtenn/) frameworks developed by myself and
 others in the Chodera Lab and ASAP Discovery Consortium. **Importantly, all code and
 data used in this project are publicly accessible. Nothing propietary or confidential
 was used, and all results should be replicable by anyone coming across this repo.**
@@ -18,9 +18,9 @@ disorganized, but should recreate all the relevant figures if you run them.
 
 Installation and setup for `asapdiscovery` and `mtenn` can be found in their respective
 documentation. I used development branch versions of both packages (commit
-(`d5f686a`)[https://github.com/asapdiscovery/asapdiscovery/commit/d5f686a] in the
+[`d5f686a`](https://github.com/asapdiscovery/asapdiscovery/commit/d5f686a) in the
 `add-weight-decay-loss` branch for `asapdiscovery` and commit
-(`09564fb`)[https://github.com/choderalab/mtenn/commit/09564fb] in the
+[`09564fb`](https://github.com/choderalab/mtenn/commit/09564fb) in the
 `add-label-strategy` branch for `mtenn`), so these will unfortunately need to be
 installed manually rather than using the `conda-forge` packages. Those may work, but I
 haven't done any testing with them for this project.
@@ -29,7 +29,7 @@ haven't done any testing with them for this project.
 
 I opted to work from the raw data package, mainly because I wanted to utilize the date
 property in order to train using a temporal split. The data can be downloaded from
-(this page)[https://polarishub.io/datasets/asap-discovery/antiviral-potency-2025-sample]
+[this page](https://polarishub.io/datasets/asap-discovery/antiviral-potency-2025-sample)
 or using the following command.
 
 ```bash
@@ -54,8 +54,8 @@ mkdir parsed_datasets
 
 We next need to parse these raw CSV files into the format that the `asapdiscovery-ml`
 CLI expects. For more information on these formats, please see the
-(relevant docs page)
-[https://asapdiscovery.readthedocs.io/en/latest/guides/using_ml_cli.html].
+[relevant docs page]
+(https://asapdiscovery.readthedocs.io/en/latest/guides/using_ml_cli.html).
 
 Before running the standard CLI, there is one ad hoc processing script that I had to
 write because the data to use for the MERS data are the Minh columns, which are in a
