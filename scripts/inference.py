@@ -10,6 +10,11 @@ from asapdiscovery.ml.schema import TrainingPredictionTracker
 from mtenn.config import GATModelConfig
 
 
+# Function to calculate MAE
+def calc_mae_df(g):
+    return np.mean(np.abs(g["pred"] - g["target"]))
+
+
 @click.command()
 @click.option(
     "--ds-config",
@@ -38,11 +43,29 @@ from mtenn.config import GATModelConfig
     ),
 )
 @click.option(
-    "--use-best-epoch",
+    "--use-last-epoch",
+    is_flag=True,
+    help="Load loss values from pred_tracker and use last epoch.",
+)
+@click.option(
+    "--use-best-epoch-loss",
     is_flag=True,
     help="Load loss values from pred_tracker and use epoch with lowest val loss.",
 )
-def main(ds_config, model_dir, output_preds, use_epoch=None, use_best_epoch=False):
+@click.option(
+    "--use-best-epoch-mae",
+    is_flag=True,
+    help="Load loss values from pred_tracker and use epoch with lowest val MAE.",
+)
+def main(
+    ds_config,
+    model_dir,
+    output_preds,
+    use_epoch=None,
+    use_last_epoch=False,
+    use_best_epoch_loss=False,
+    use_best_epoch_mae=False,
+):
     # Check that all the necessary files exist
     trainer_path = model_dir / "trainer.json"
     if not trainer_path.exists():
@@ -53,34 +76,54 @@ def main(ds_config, model_dir, output_preds, use_epoch=None, use_best_epoch=Fals
     weights_dir = model_dir / run_id_path.read_text()
     if not weights_dir.exists():
         raise FileNotFoundError("Weights dir not found")
-    if use_best_epoch:
+
+    num_flags = use_last_epoch + use_best_epoch_loss + use_best_epoch_mae
+    if num_flags > 0:
         pred_tracker_fn = weights_dir / "pred_tracker.json"
         if not pred_tracker_fn.exists():
             raise FileNotFoundError("pred_tracker.json file not found")
 
-    # Figure out which weights file to use
-    if use_epoch is not None:
-        if use_best_epoch:
-            print(
-                (
-                    "Both --use-best-epoch and --use-epoch were specified, using epoch "
-                    "specified with --use-epoch."
-                ),
-                flush=True,
-            )
-        weights_fn = weights_dir / f"{use_epoch}.th"
-        if not weights_fn.exists():
-            raise FileNotFoundError("Weights file not found for specified epoch")
-    elif use_best_epoch:
         pred_tracker = TrainingPredictionTracker(
             **json.loads(pred_tracker_fn.read_text())
         )
-        val_losses = pred_tracker.get_losses(True, True)["val"]
-        use_epoch = np.argmin(val_losses)
+        full_preds_df = pred_tracker.to_plot_df(agg_compounds=False, agg_losses=True)
+
+    # Figure out which weights file to use
+    if use_epoch is not None:
+        if num_flags > 0:
+            print(
+                "--use-epoch was specified in addition to some number of flags, "
+                "ignoring flags in favor of specified epoch.",
+                flush=True,
+            )
+    elif num_flags == 0:
+        print("No epoch specified to use, using final epoch.", flush=True)
+        use_epoch = max(full_preds_df["epoch"])
+    elif num_flags > 1:
+        raise ValueError("Too many flags specified.")
+    elif use_best_epoch_loss:
+        epoch_df = pred_tracker.to_plot_df(agg_compounds=True, agg_losses=True)
+        val_df = epoch_df.loc[epoch_df["split"] == "val", :]
+        use_epoch = val_df.iloc[np.argmin(val_df["loss"]), :]["epoch"]
+    elif use_best_epoch_mae:
+        mae_df = (
+            full_preds_df.groupby(["split", "epoch"])
+            .apply(calc_mae_df)
+            .reset_index(level=["split", "epoch"])
+            .reset_index(drop=True)
+            .rename(columns={0: "MAE"})
+        )
+        val_df = mae_df.loc[mae_df["split"] == "val", :]
+        use_epoch = val_df.iloc[np.argmin(val_df["MAE"]), :]["epoch"]
+    elif use_last_epoch:
+        use_epoch = max(full_preds_df["epoch"])
+
+
+    if use_epoch is not None:
+        print(f"Using epoch {use_epoch}", flush=True)
         weights_fn = weights_dir / f"{use_epoch}.th"
         if not weights_fn.exists():
-            raise FileNotFoundError("Weights file not found for best epoch")
-        print(f"Using weights from {weights_fn}", flush=True)
+            raise FileNotFoundError("Weights file not found for specified epoch")
     else:
         weights_fn = weights_dir / "final.th"
         if not weights_fn.exists():
