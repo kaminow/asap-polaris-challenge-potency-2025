@@ -225,3 +225,23 @@ asap-ml build-and-train gat \
 \
 --device cuda \
 --n-epochs 5000
+```
+
+# How'd we do?
+
+Let's take a look at well the models performed on the val sets of their respective
+targets.
+
+## Training from scratch
+
+For each of these models, I ran three training runs: one with fully random
+initialization (ie no random seed set), and two with set model seeds used for
+initiailizing weights. This will give us an idea of how robust the results are to
+initial model weights.
+
+Looking at the training curves, it seems that the results are relatively similar across
+the different model initializations. The curves for the MERS models look almost
+identical, although there is definitely a noticeable difference for the SARS models
+between the model initialized fully randomly and the ones initializes with set seeds.
+
+![Training curves for models for both targets, trained from scratch.](figures/training_loss_curves.png)
