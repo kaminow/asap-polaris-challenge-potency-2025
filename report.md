@@ -245,3 +245,7 @@ identical, although there is definitely a noticeable difference for the SARS mod
 between the model initialized fully randomly and the ones initializes with set seeds.
 
 ![Training curves for models for both targets, trained from scratch.](figures/training_loss_curves.png)
+
+We can also examine how well each model does on recapitulating the target value on a
+per-compound basis. The below plots show each model's predictions from the epoch at
+which that model achieved its lowest validation set MAE.
