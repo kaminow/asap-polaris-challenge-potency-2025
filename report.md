@@ -248,4 +248,18 @@ between the model initialized fully randomly and the ones initializes with set s
 
 We can also examine how well each model does on recapitulating the target value on a
 per-compound basis. The below plots show each model's predictions from the epoch at
-which that model achieved its lowest validation set MAE.
+which that model achieved its lowest validation set MAE. These distributions show that
+there is little difference between the models trained with different initial weights.
+There seems to be some positive correlation for the SARS model, although it's not
+particularly strong. The MERS model seems to have much less correlative signal, and the
+model seems to have just learned to predict ~the mean of the train set (horizontal
+gray dashed lines).
+
+![Per-compound prediction vs target for both targets, trained from scratch.](figures/val_preds_best_mae.png)
+
+We can check these qualitative results by plotting some summary statistics for the above
+plots (along with a bootstrapped 95% confidence interval). As expected, although both
+models are able to get below 1 pIC50 unit in both the MAE and RMSE, both calculated
+correlation metrics are fairly low for the MERS model.
+
+![Val set summary statistics for both targets, trained from scratch.](figures/val_set_stats_best_mae_from_scratch.png)
