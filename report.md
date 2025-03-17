@@ -272,3 +272,30 @@ predicting a fairly wide (but still reasonable) range of values, but obviously i
 remains to be seen if these values are correct.
 
 ![Distribution of test set predictions for both targets, trained from scratch.](figures/test_set_predictions_from_scratch.png)
+
+## Pretraining
+
+I also tried pretraining these models on the publicly available data from the COVID
+Moonshot project. The process for this was to first train a model on the pretraining
+dataset, then pick the epoch with the best MAE and use the weights from that epoch as
+the initial weights to train models on both of the competition datasets. We can look at
+the training curves and model predictions for the pretraining run, just for some QC, and
+we see that the model does seem to have learned reasonably well for this pretraining
+dataset.
+
+![Training curves for pretraining run.](figures/pretraining_loss_curves.png)
+![Per-compound prediction vs target for pretraining run.](figures/pretraining_val_preds_best_mae.png)
+
+For training the target models, I only used the pretraining run without a specified
+initial model seed. It seems that neither of the pretrained models are able to
+outperform the models trained from scratch. This may be due to the differences in the
+data that we saw in our analysis step at the beginning. One other interesting thing to
+note is that the pretrained MERS model initially performs much better on the validation
+set than the train set. This possibly indicates that the MERS validation set is more
+similar to the Moonshot train set than the MERS train set is. Regardless, the best
+performance that the pretrained models are able to achieve seems to be on par with the
+performance of the models trained from scratch.
+
+![Training curves for models for both targets, trained from scratch and pretrained.](figures/training_loss_curves_both.png)
+![Per-compound prediction vs target for both targets, trained from scratch.](figures/val_preds_best_mae_both.png)
+![Val set summary statistics for both targets, trained from scratch and pretrained.](figures/val_set_stats_best_mae_both.png)
