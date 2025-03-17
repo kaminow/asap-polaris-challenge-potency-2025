@@ -263,3 +263,12 @@ models are able to get below 1 pIC50 unit in both the MAE and RMSE, both calcula
 correlation metrics are fairly low for the MERS model.
 
 ![Val set summary statistics for both targets, trained from scratch.](figures/val_set_stats_best_mae_from_scratch.png)
+
+Finally, we can take a look at the distribution of our final test set predictions. As
+we were seeing in the previous plots, the MERS predictions are fairly normally
+distributed around the train set mean (dashed vertical lines). Likely, the MERS model
+has overfit to the train distribution. The SARS model on the other hand seems to be
+predicting a fairly wide (but still reasonable) range of values, but obviously it still
+remains to be seen if these values are correct.
+
+![Distribution of test set predictions for both targets, trained from scratch.](figures/test_set_predictions_from_scratch.png)
